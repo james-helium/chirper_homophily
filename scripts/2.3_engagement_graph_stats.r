@@ -53,6 +53,10 @@ color_label_table <- table(
     V(engagements_graph)$label, V(engagements_graph)$color
 )
 chisq.test(color_label_table)
+# rename colors to make them easier to read
+# "#000000CC" "#0000FFCC" "#BEBEBE66" "#FF0000CC" ->
+# "japanese" "english" "others" "chinese"
+colnames(color_label_table) <- c("japanese", "english", "others", "chinese")
 color_label_table
 summary(lm(
     V(engagements_graph)$label ~ V(engagements_graph)$color
@@ -110,6 +114,13 @@ Multiple R-squared:  0.8395,    Adjusted R-squared:  0.8395
 F-statistic: 4.262e+04 on 3 and 24439 DF,  p-value: < 2.2e-16
 """
 
+# additional robustness check:
+
+# cramer's V
+library(lsr)
+cramersV(color_label_table)
+# t2: 0.914
+# t3: 0.895
 
 
 # distribution of degrees
